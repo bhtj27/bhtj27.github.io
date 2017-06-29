@@ -52,5 +52,4 @@ SynchronousQueue：特殊的BlockingQueue，对其操作必须必须是存和取
 5.任务拒绝策略：
 
 
-
-  [1]: ./images/a-1_1.png "a-1"
+  [1]: ./images/a-1_2.png "a-1"
