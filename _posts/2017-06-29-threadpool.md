@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 2017-06-29-threadpool.md 
+title: 线程池框架.md 
 date: Thu Jun 29 2017 16:30:02 GMT+0800 (中国标准时间)
 tags: [线程池,Java]
 categories: [Java笔记]
@@ -291,6 +291,55 @@ task 8执行完毕
 task 9执行完毕
 
 ```
+
+9.Executors类：
+相当于线程池工具类，用来创建线程池的，通常不用像
+
+``` stylus
+ThreadPoolExecutor executor=new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS, 
+				new ArrayBlockingQueue<Runnable>(5));
+```
+这样来创建线程池，而是用Executors的静态工厂来创建，Executors几个重要的方法：
+1).newSingleExecutor：该线程池中只有一个线程
+``` stylus
+public static ExecutorService newSingleThreadExecutor() {
+        return new FinalizableDelegatedExecutorService
+            (new ThreadPoolExecutor(1, 1,
+                                    0L, TimeUnit.MILLISECONDS,
+                                    new LinkedBlockingQueue<Runnable>()));
+    }
+```
+
+2).newFixedThreadPool：必须要带线程数值过去，产生固定大小的线程池
+``` stylus
+public static ExecutorService newFixedThreadPool(int nThreads) {
+        return new ThreadPoolExecutor(nThreads, nThreads,
+                                      0L, TimeUnit.MILLISECONDS,
+                                      new LinkedBlockingQueue<Runnable>());
+    }
+```
+
+3).newCachedThreadPool：一个可以缓存的线程池，核心线程数为0，线程最大值为Integer.MAX_VALUE，实际上是没有对线程池的大小做限制，线程池大小完全依赖操作系统或者JVM能够创建的最大线程数，会回收60s不执行的任务的线程。
+``` stylus
+public static ExecutorService newCachedThreadPool() {
+        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                                      60L, TimeUnit.SECONDS,
+                                      new SynchronousQueue<Runnable>());
+    }
+```
+4).newScheduledThreadPoolExecutor：创建固定大小的定时以及周期性执行任务的线程池。
+``` stylus
+public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize) {
+        return new ScheduledThreadPoolExecutor(corePoolSize);
+    }
+```
+
+
+
+
+
+
+
 
 
 
